@@ -28,7 +28,7 @@ class SearchSanityChecker:
         self.api_key = os.getenv("TAVILY_API_KEY")
         if not self.api_key:
             raise EnvironmentError("TAVILY_API_KEY environment variable is missing.")
-        
+
         self.client = TavilyClient(api_key=self.api_key)
         self.dataset_path = dataset_path
         self.df = None
@@ -48,8 +48,8 @@ class SearchSanityChecker:
         """Helper to safely query Tavily API."""
         try:
             response = self.client.search(
-                query=query, 
-                search_depth="advanced", 
+                query=query,
+                search_depth="advanced",
                 max_results=max_results
             )
             return response.get('results', [])
@@ -69,9 +69,11 @@ class SearchSanityChecker:
             roman_query = row.get('claim_roman_urdu')
             english_query = row.get('claim_english')
             category = row.get('category', 'General')
+            # FIX: category can be NaN/float for missing values -> str() before .upper()
+            category_display = str(category).upper() if pd.notna(category) else "GENERAL"
 
             print("\n" + "="*100)
-            print(f"CASE STUDY {idx+1} | Category: {category.upper()}")
+            print(f"CASE STUDY {idx+1} | Category: {category_display}")
             print(f"🔍 [Roman Urdu Query]: {roman_query}")
             print(f"🔍 [English Query]   : {english_query}")
             print("="*100 + "\n")
@@ -81,18 +83,22 @@ class SearchSanityChecker:
             roman_results = self.execute_search(roman_query)
             logger.info(f"Test-A retrieved {len(roman_results)} hits.")
             for r_idx, res in enumerate(roman_results):
+                # FIX: content can be None -> guard with `or ''` before slicing
+                content = res.get('content') or ''
                 print(f"  [RU-Hit {r_idx+1}] Title: {res.get('title')}")
-                print(f"            URL  : {res.get('url')}")
-                print(f"            Snippet Snippet: {res.get('content')[:140]}...")
+                print(f"            URL     : {res.get('url')}")
+                print(f"            Snippet : {content[:140]}...")
 
             # Evaluate Test B: Transformed English Execution
             logger.info("Executing Test-B (Semantic/English Query Search)...")
             english_results = self.execute_search(english_query)
             logger.info(f"Test-B retrieved {len(english_results)} hits.")
             for e_idx, res in enumerate(english_results):
+                # FIX: same None-safety here
+                content = res.get('content') or ''
                 print(f"  [EN-Hit {e_idx+1}] Title: {res.get('title')}")
-                print(f"            URL  : {res.get('url')}")
-                print(f"            Snippet Snippet: {res.get('content')[:140]}...")
+                print(f"            URL     : {res.get('url')}")
+                print(f"            Snippet : {content[:140]}...")
 
             print("\n" + "-"*100)
 
@@ -100,16 +106,17 @@ class SearchSanityChecker:
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Tavily Search API Query Translation Sanity Checker")
     parser.add_argument(
-        "--dataset", 
-        type=str, 
-        default="data/Tehqeeq Data.xlsx", 
+        "--dataset",
+        type=str,
+        default="data/Tehqeeq Data.xlsx",
         help="Path to the system ground-truth dataset."
     )
     args = parser.parse_args()
 
     # Evaluation targets selection
-    # Indices map: [0 (Education), 1 (Education), 3 (Entertainment), 4 (Health), 8 (Politics)]
-    target_indices = [0, 1, 3, 4, 8]
+    # FIX: updated to spread across the full 80-row dataset (was hardcoded to old 20-row set)
+    # Covers a wider mix of categories including Tech and ND which didn't exist in the old sample.
+    target_indices = [0, 15, 30, 45, 60, 70]
 
     try:
         checker = SearchSanityChecker(dataset_path=args.dataset)
