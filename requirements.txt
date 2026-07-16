@@ -1,4 +1,8 @@
-pandas
-openpyxl
+fastapi
+uvicorn
+groq
 tavily-python
 python-dotenv
+pandas
+openpyxl
+pydantic
