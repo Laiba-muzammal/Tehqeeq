@@ -126,22 +126,8 @@ const sourcesList = document.getElementById('sourcesList');
 function switchLanguage(lang) {
     const t = translations[lang];
     if (!t) return;
-
-    // FIX: previously this rebuilt the *entire* .welcome container's
-    // innerHTML in one string (sentence + language indicator combined),
-    // with raw text nodes sitting directly inside a `display: flex`
-    // container. Browsers render inconsistent/missing whitespace between
-    // text nodes and inline elements when they're direct flex children,
-    // which caused "Khush AmdeedTasdeeqmein" to run together with no
-    // spaces. Fix: only update the *inner* welcomeSentence span's HTML
-    // (normal inline text flow, unaffected by the outer flex layout) and
-    // update the langIndicator span separately via textContent.
     welcomeSentence.innerHTML = t.welcome;
     langIndicator.textContent = t.langIndicator;
-
-    // Urdu script needs right-to-left rendering, or word order/wrapping
-    // breaks -- this was previously only applied to originalClaim/
-    // reasoningText, not to the welcome header.
     welcomeSentence.classList.toggle('rtl', t.rtl);
 
     inputLabel.textContent = t.inputLabel;
@@ -155,7 +141,6 @@ function switchLanguage(lang) {
     reasoningLabel.textContent = t.reasoningLabel;
     sourcesLabel.textContent = t.sourcesLabel;
 
-    // Apply/remove right-to-left styling for Urdu script content.
     document.body.classList.toggle('rtl-active', t.rtl);
     originalClaim.classList.toggle('rtl', t.rtl);
     reasoningText.classList.toggle('rtl', t.rtl);
@@ -246,15 +231,6 @@ verifyBtn.addEventListener('click', async function () {
 // ============================
 // DISPLAY RESULT
 // ============================
-// IMPORTANT: this no longer does any client-side word/phrase translation.
-// The backend (pipeline.py -> translator.py) already returns the
-// reasoning fully translated into all three languages:
-//   reasoning: { english: "...", roman_urdu: "...", urdu_script: "..." }
-// We just pick the field matching the selected language. This replaces
-// the old `translateReasoning()` dictionary-replace approach, which only
-// swapped a few individual words (like "and" -> "اور") and left the rest
-// of the sentence in English -- that was the source of the mixed-language
-// output bug.
 function displayResult(data) {
     const t = translations[selectedLang];
 
