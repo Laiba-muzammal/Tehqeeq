@@ -31,7 +31,7 @@ const translations = {
         rtl: false
     },
     ur: {
-        welcome: 'خوش آمدید <span class="tasdeeq-green">تصدیق</span> میں',
+        welcome: '<span class="tasdeeq-green">تصدیق</span> میں خوش آمدید',
         langIndicator: '(اردو)',
         inputLabel: 'اپنا دعویٰ تصدیق کے لیے درج کریں:',
         placeholder: 'انگریزی، اردو یا رومن اردو میں اپنا دعویٰ پیسٹ یا ٹائپ کریں...',
@@ -54,7 +54,7 @@ const translations = {
         rtl: true
     },
     roman: {
-        welcome: 'Khush Amdeed <span class="tasdeeq-green">Tasdeeq</span> mein',
+        welcome: '<span class="tasdeeq-green">Tasdeeq</span> mein Khush Amdeed',
         langIndicator: '(Roman Urdu)',
         inputLabel: 'Apna daawa tasdeeq ke liye darj karein:',
         placeholder: 'Angrezi, Urdu ya Roman Urdu mein apna daawa paste ya type karein...',
@@ -100,6 +100,7 @@ const langBtns = document.querySelectorAll('.lang-btn');
 const apiUrlInput = document.getElementById('apiUrlInput');
 
 const welcomeText = document.getElementById('welcomeText');
+const welcomeSentence = document.getElementById('welcomeSentence');
 const langIndicator = document.getElementById('langIndicator');
 const inputLabel = document.getElementById('inputLabel');
 const confLabel = document.getElementById('confLabel');
@@ -126,9 +127,22 @@ function switchLanguage(lang) {
     const t = translations[lang];
     if (!t) return;
 
-    // Rebuild welcome text with the innerHTML so the <span class="tasdeeq-green">
-    // brand highlight renders in every language, plus the "(English)"/"(اردو)" indicator.
-    welcomeText.innerHTML = t.welcome + ' <span class="sub" id="langIndicator">' + t.langIndicator + '</span>';
+    // FIX: previously this rebuilt the *entire* .welcome container's
+    // innerHTML in one string (sentence + language indicator combined),
+    // with raw text nodes sitting directly inside a `display: flex`
+    // container. Browsers render inconsistent/missing whitespace between
+    // text nodes and inline elements when they're direct flex children,
+    // which caused "Khush AmdeedTasdeeqmein" to run together with no
+    // spaces. Fix: only update the *inner* welcomeSentence span's HTML
+    // (normal inline text flow, unaffected by the outer flex layout) and
+    // update the langIndicator span separately via textContent.
+    welcomeSentence.innerHTML = t.welcome;
+    langIndicator.textContent = t.langIndicator;
+
+    // Urdu script needs right-to-left rendering, or word order/wrapping
+    // breaks -- this was previously only applied to originalClaim/
+    // reasoningText, not to the welcome header.
+    welcomeSentence.classList.toggle('rtl', t.rtl);
 
     inputLabel.textContent = t.inputLabel;
     claimInput.placeholder = t.placeholder;

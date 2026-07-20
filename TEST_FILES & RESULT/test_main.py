@@ -3,7 +3,7 @@ from unittest.mock import patch
 
 from fastapi.testclient import TestClient
 
-import main
+from Backend import main
 
 
 class VerifyEndpointTests(unittest.TestCase):

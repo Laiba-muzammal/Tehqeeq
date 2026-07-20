@@ -26,11 +26,11 @@ being reported in the news.
 
 import json
 import logging
-from extractor import ClaimExtractor
-from searcher import ClaimSearcher
-from verifier import VerdictGenerator
-from calendar_tool import is_calendar_related, build_calendar_evidence
-from translator import OutputTranslator
+from Backend.extractor import ClaimExtractor
+from Backend.searcher import ClaimSearcher
+from Backend.verifier import VerdictGenerator
+from Backend.calendar_tool import is_calendar_related, build_calendar_evidence
+from Backend.translator import OutputTranslator
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 logger = logging.getLogger(__name__)

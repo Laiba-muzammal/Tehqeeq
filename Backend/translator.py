@@ -13,6 +13,7 @@ substitute the subject" caution applies here).
 """
 
 import os
+import re
 import json
 import logging
 from dotenv import load_dotenv
@@ -22,6 +23,15 @@ logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(
 logger = logging.getLogger(__name__)
 
 load_dotenv()
+
+# Unicode range covering Arabic script (used for Urdu). If this shows up
+# in a field that's supposed to be Roman (Latin-script) Urdu, the model
+# didn\'t follow instructions and we treat that field as invalid.
+_ARABIC_SCRIPT_PATTERN = re.compile(r"[\u0600-\u06FF\u0750-\u077F]")
+
+
+def _contains_arabic_script(text: str) -> bool:
+    return bool(_ARABIC_SCRIPT_PATTERN.search(text or ""))
 
 TRANSLATION_SYSTEM_PROMPT = """You are a translator. You will be given an English fact-check verdict and its reasoning. Translate it into two additional formats:
 
@@ -46,7 +56,7 @@ class OutputTranslator:
         if not api_key:
             raise EnvironmentError("GROQ_API_KEY is missing from the environment (.env).")
         self.client = Groq(api_key=api_key)
-        self.model = os.getenv("GROQ_MODEL_EXTRACT", "llama-3.1-8b-instant")
+        self.model = os.getenv("GROQ_MODEL_EXTRACT", "llama-3.3-70b-versatile")
 
     def translate(self, english_text: str) -> dict:
         """
@@ -67,6 +77,20 @@ class OutputTranslator:
             raw_output = response.choices[0].message.content.strip()
             raw_output = raw_output.replace("```json", "").replace("```", "").strip()
             parsed = json.loads(raw_output)
+
+            # FIX: the model sometimes fills "roman_urdu" with Urdu script
+            # text instead of Latin script, despite the prompt instruction.
+            # Detect this and fall back to the English text for that field
+            # rather than silently showing mislabeled Urdu-script content
+            # under the "Roman Urdu" toggle.
+            if _contains_arabic_script(parsed.get("roman_urdu", "")):
+                logger.error(
+                    "Translator returned Arabic-script text in the roman_urdu "
+                    "field; falling back to English for that field. raw=%r",
+                    parsed.get("roman_urdu"),
+                )
+                parsed["roman_urdu"] = english_text
+
             parsed["is_error"] = False
             return parsed
         except Exception as exc:  # noqa: BLE001
@@ -128,6 +152,17 @@ Respond ONLY in valid JSON, no extra text, no markdown, in this exact format:
                 raise ValueError(
                     f"Expected {len(titles)} translated titles, got {len(translated_titles)}"
                 )
+
+            # Same Arabic-script-in-roman_urdu check as translate() above,
+            # applied per-title.
+            for i, item in enumerate(translated_titles):
+                if _contains_arabic_script(item.get("roman_urdu", "")):
+                    logger.error(
+                        "Title translation returned Arabic script in roman_urdu "
+                        "for title %r; falling back to original.", titles[i]
+                    )
+                    item["roman_urdu"] = titles[i]
+
             return translated_titles
 
         except Exception as exc:  # noqa: BLE001

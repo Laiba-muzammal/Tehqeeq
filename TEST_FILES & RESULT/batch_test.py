@@ -14,7 +14,7 @@ the tool's real accuracy.
 import json
 import logging
 import pandas as pd
-from pipeline import TasdeeqPipeline
+from Backend.pipeline import TasdeeqPipeline
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 logger = logging.getLogger(__name__)
