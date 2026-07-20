@@ -40,6 +40,7 @@ class TasdeeqPipeline:
     """End-to-end claim verification pipeline."""
 
     def __init__(self):
+        """Instantiate the pipeline stages (extractor, searcher, verifier, translator)."""
         self.extractor = ClaimExtractor()
         self.searcher = ClaimSearcher()
         self.verifier = VerdictGenerator()

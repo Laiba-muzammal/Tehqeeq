@@ -123,6 +123,10 @@ const sourcesList = document.getElementById('sourcesList');
 // ============================
 // LANGUAGE SWITCH
 // ============================
+/**
+ * Switch the UI language and update all visible labels/placeholders.
+ * @param {string} lang - Language key ("en" | "ur" | "roman").
+ */
 function switchLanguage(lang) {
     const t = translations[lang];
     if (!t) return;
@@ -151,6 +155,7 @@ function switchLanguage(lang) {
 // ============================
 // CHARACTER COUNTER
 // ============================
+// Update the on-screen character count as the user types.
 claimInput.addEventListener('input', function () {
     const len = this.value.length;
     charCount.textContent = `${len} / 2000`;
@@ -159,6 +164,9 @@ claimInput.addEventListener('input', function () {
 // ============================
 // LANGUAGE BUTTONS
 // ============================
+// Attach click handlers to language toggle buttons. When a language is
+// selected we re-render any already-fetched result in the chosen language
+// without calling the backend again.
 langBtns.forEach(btn => {
     btn.addEventListener('click', function () {
         langBtns.forEach(b => b.classList.remove('active'));
@@ -166,9 +174,6 @@ langBtns.forEach(btn => {
         const lang = this.dataset.lang;
         switchLanguage(lang);
 
-        // Re-render the already-fetched result in the new language --
-        // no need to re-call the API, the backend already returned all
-        // three language versions of the reasoning in one response.
         if (outputSection.classList.contains('show') && window._lastResultData) {
             displayResult(window._lastResultData);
         }
@@ -178,6 +183,10 @@ langBtns.forEach(btn => {
 // ============================
 // VERIFY CLAIM
 // ============================
+/**
+ * Click handler for the "Verify" button. Validates input, calls the
+ * backend `/verify` endpoint, and displays results or errors.
+ */
 verifyBtn.addEventListener('click', async function () {
     const claim = claimInput.value.trim();
     const t = translations[selectedLang];
@@ -231,6 +240,11 @@ verifyBtn.addEventListener('click', async function () {
 // ============================
 // DISPLAY RESULT
 // ============================
+/**
+ * Render the verification `data` returned by the backend into the UI.
+ * This reads pre-translated fields for multilingual display.
+ * @param {object} data - Response payload from `/verify`.
+ */
 function displayResult(data) {
     const t = translations[selectedLang];
 
@@ -315,6 +329,10 @@ function displayResult(data) {
 // ============================
 // UI HELPERS
 // ============================
+/**
+ * Toggle the global loading state (disables inputs and shows overlay).
+ * @param {boolean} loading
+ */
 function setLoading(loading) {
     isProcessing = loading;
     if (loading) {
@@ -330,6 +348,9 @@ function setLoading(loading) {
     }
 }
 
+/**
+ * Reveal the output panel and scroll it into view.
+ */
 function showOutput() {
     outputSection.classList.add('show');
     setTimeout(() => {
@@ -337,15 +358,25 @@ function showOutput() {
     }, 100);
 }
 
+/**
+ * Hide the output panel.
+ */
 function hideOutput() {
     outputSection.classList.remove('show');
 }
 
+/**
+ * Display an error message in the UI.
+ * @param {string} msg
+ */
 function showError(msg) {
     errorBox.textContent = msg;
     errorBox.classList.add('show');
 }
 
+/**
+ * Clear any visible error message.
+ */
 function hideError() {
     errorBox.classList.remove('show');
     errorBox.textContent = '';

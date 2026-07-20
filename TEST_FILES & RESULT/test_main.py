@@ -1,3 +1,12 @@
+"""
+test_main.py
+
+Quick integration tests for the FastAPI endpoints exposed by
+`Backend.main`. Ensures the `/verify` endpoint preserves the expected
+response shape (adds a top-level `status` field) even when the pipeline
+returns a pre-crafted payload.
+"""
+
 import unittest
 from unittest.mock import patch
 

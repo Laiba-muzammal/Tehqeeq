@@ -30,6 +30,10 @@ LABEL_MAPPING = {
 
 
 def normalize_label(label):
+    """Normalize a raw dataset verdict label into the pipeline's canonical label.
+
+    Returns None for empty/falsey labels.
+    """
     if not label:
         return None
     return LABEL_MAPPING.get(str(label).strip().lower(), str(label).strip().lower())

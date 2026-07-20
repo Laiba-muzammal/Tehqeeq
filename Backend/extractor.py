@@ -47,6 +47,7 @@ class ClaimExtractor:
     """Wraps a Groq chat completion call for claim extraction and translation."""
 
     def __init__(self):
+        """Initialize the Groq client and select the extraction model from environment."""
         api_key = os.getenv("GROQ_API_KEY")
         if not api_key:
             raise EnvironmentError("GROQ_API_KEY is missing from the environment (.env).")

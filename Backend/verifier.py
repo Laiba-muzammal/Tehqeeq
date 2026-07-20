@@ -212,6 +212,7 @@ class VerdictGenerator:
     """Wraps a Groq chat completion call for evidence-based verdict generation."""
 
     def __init__(self):
+        """Initialize the Groq client and select the verifier model from environment."""
         api_key = os.getenv("GROQ_API_KEY")
         if not api_key:
             raise EnvironmentError("GROQ_API_KEY is missing from the environment (.env).")

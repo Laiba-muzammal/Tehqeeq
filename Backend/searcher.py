@@ -110,6 +110,7 @@ class ClaimSearcher:
     """Wraps a Tavily search call and post-processes results for downstream use."""
 
     def __init__(self):
+        """Initialize the Tavily client using the `TAVILY_API_KEY` environment variable."""
         api_key = os.getenv("TAVILY_API_KEY")
         if not api_key:
             raise EnvironmentError("TAVILY_API_KEY is missing from the environment (.env).")
@@ -122,6 +123,12 @@ class ClaimSearcher:
         return any(keyword in lowered for keyword in RECENCY_KEYWORDS)
 
     def search_claim(self, english_claim: str, max_results: int = DEFAULT_MAX_RESULTS) -> list[dict]:
+        """Search the web for `english_claim` using Tavily and return
+        a list of normalized result dicts for downstream processing.
+
+        Results are sorted to prefer trusted domains and trimmed to
+        `max_results` with content snippets shortened to a fixed length.
+        """
         search_kwargs = {
             "query": english_claim,
             "search_depth": "advanced",

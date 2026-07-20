@@ -4,6 +4,12 @@
     box-sizing: border-box;
 }
 
+/*
+    style.css
+    Purpose: Styles for the Tehqeeq frontend UI. Contains layout, color
+    palette, responsive rules, and RTL support for Urdu script rendering.
+*/
+
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background: #f0f2f5;

@@ -24,6 +24,7 @@ logger = logging.getLogger(__name__)
 
 class SearchSanityChecker:
     def __init__(self, dataset_path: str):
+        """Load environment and initialize Tavily client and dataset path."""
         load_dotenv()
         self.api_key = os.getenv("TAVILY_API_KEY")
         if not self.api_key:

@@ -31,6 +31,7 @@ _ARABIC_SCRIPT_PATTERN = re.compile(r"[\u0600-\u06FF\u0750-\u077F]")
 
 
 def _contains_arabic_script(text: str) -> bool:
+    """Return True if `text` contains any Arabic-script characters (used for Urdu)."""
     return bool(_ARABIC_SCRIPT_PATTERN.search(text or ""))
 
 TRANSLATION_SYSTEM_PROMPT = """You are a translator. You will be given an English fact-check verdict and its reasoning. Translate it into two additional formats:
@@ -52,6 +53,7 @@ class OutputTranslator:
     """Translates a finished English verdict/reasoning into Roman Urdu and Urdu script."""
 
     def __init__(self):
+        """Create a Groq client and select the translator model from environment."""
         api_key = os.getenv("GROQ_API_KEY")
         if not api_key:
             raise EnvironmentError("GROQ_API_KEY is missing from the environment (.env).")
