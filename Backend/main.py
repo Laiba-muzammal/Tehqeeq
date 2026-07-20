@@ -1,10 +1,7 @@
 """
 main.py
 
-FastAPI application exposing the Tasdeeq claim-verification pipeline
-as a web API. This allows any frontend (Streamlit, browser, mobile app,
-etc.) to call the pipeline over HTTP instead of running it directly
-from the command line.
+FastAPI application exposing the Tasdeeq claim-verification pipeline as a web API.
 """
 
 import logging

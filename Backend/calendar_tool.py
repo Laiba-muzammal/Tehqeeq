@@ -28,8 +28,7 @@ ALADHAN_G_TO_H_URL = "https://api.aladhan.com/v1/gToH"
 
 # Keywords that suggest a claim is about the Islamic/Hijri calendar and
 # would benefit from a deterministic date check rather than (or alongside)
-# web search. Kept intentionally broad -- false positives here just mean
-# one extra API call, not an incorrect verdict.
+# web search.
 CALENDAR_KEYWORDS = [
     "roza", "ramadan", "ramzan", "eid", "hijri", "islamic calendar",
     "moon sighting", "ruet-e-hilal", "shawwal", "muharram", "hijra",
