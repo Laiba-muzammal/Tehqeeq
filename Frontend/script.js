@@ -2,13 +2,13 @@
 // TRANSLATIONS
 // ============================
 // NOTE: "welcome" strings include the green-highlighted brand word
-// ("Tasdeeq" / "تصدیق") in every language, using the same
-// .tasdeeq-green span, so the branding stays consistent when switching
+// ("Tehqeeq" / " تحقیق ") in every language, using the same
+// .tehqeeq-green span, so the branding stays consistent when switching
 // languages -- this was missing before (Urdu/Roman Urdu welcome text had
 // no green highlight at all).
 const translations = {
     en: {
-        welcome: 'Welcome to <span class="tasdeeq-green">Tasdeeq</span>',
+        welcome: 'Welcome to <span class="tehqeeq-green">Tehqeeq</span>',
         langIndicator: '(English)',
         inputLabel: 'Enter your claim to verify:',
         placeholder: 'Paste or type your claim in English, Urdu, or Roman Urdu...',
@@ -31,19 +31,19 @@ const translations = {
         rtl: false
     },
     ur: {
-        welcome: '<span class="tasdeeq-green">تصدیق</span> میں خوش آمدید',
+        welcome: '<span class="tehqeeq-green">تحقیق</span> میں خوش آمدید',
         langIndicator: '(اردو)',
-        inputLabel: 'اپنا دعویٰ تصدیق کے لیے درج کریں:',
+        inputLabel: 'اپنا دعویٰ تحقیق کے لیے درج کریں:',
         placeholder: 'انگریزی، اردو یا رومن اردو میں اپنا دعویٰ پیسٹ یا ٹائپ کریں...',
-        verifyBtn: 'تصدیق کریں',
+        verifyBtn: 'تحقیق کریں',
         howToUseTitle: 'استعمال کا طریقہ',
-        howToUseText: 'کوئی بھی دعویٰ یا پیغام جس پر آپ کو شک ہو، انگریزی، اردو یا رومن اردو میں یہاں لکھیں۔ تصدیق اسے تازہ ترین ذرائع سے جانچ کر آپ کو واضح جواب دے گی — سچ، جھوٹ، گمراہ کن یا غیر یقینی — اور ساتھ میں وہ ثبوت بھی جن کی بنیاد پر یہ نتیجہ اخذ کیا گیا۔',
+        howToUseText: 'کوئی بھی دعویٰ یا پیغام جس پر آپ کو شک ہو، انگریزی، اردو یا رومن اردو میں یہاں لکھیں۔ تحقیق اسے تازہ ترین ذرائع سے جانچ کر آپ کو واضح جواب دے گی — سچ، جھوٹ، گمراہ کن یا غیر یقینی — اور ساتھ میں وہ ثبوت بھی جن کی بنیاد پر یہ نتیجہ اخذ کیا گیا۔',
         loadingText: 'عمل جاری ہے...',
         confLabel: 'اعتماد',
         originalLabel: 'اصل دعویٰ',
         reasoningLabel: 'استدلال',
         sourcesLabel: 'ذرائع',
-        errorEmpty: 'برائے مہربانی تصدیق کے لیے دعویٰ درج کریں۔',
+        errorEmpty: 'برائے مہربانی تحقیق کے لیے دعویٰ درج کریں۔',
         errorLong: 'دعویٰ بہت طویل ہے (زیادہ سے زیادہ 2000 حروف)۔',
         true: 'سچ',
         false: 'جھوٹ',
@@ -54,11 +54,11 @@ const translations = {
         rtl: true
     },
     roman: {
-        welcome: '<span class="tasdeeq-green">Tasdeeq</span> mein Khush Amdeed',
+        welcome: '<span class="tehqeeq-green">Tehqeeq</span> mein Khush Amdeed',
         langIndicator: '(Roman Urdu)',
-        inputLabel: 'Apna daawa tasdeeq ke liye darj karein:',
+        inputLabel: 'Apna daawa tehqeeq ke liye darj karein:',
         placeholder: 'Angrezi, Urdu ya Roman Urdu mein apna daawa paste ya type karein...',
-        verifyBtn: 'Tasdeeq Karein',
+        verifyBtn: 'Tehqeeq Karein',
         howToUseTitle: 'Istemal ka Tareeqa',
         howToUseText: 'Koi bhi message ya daawa jis par aapko shak ho, English, Urdu, ya Roman Urdu mein yahan likhein. Tehqeeq usay live sources se check kar ke aapko saaf jawab dega — Sach, Jhoot, Gumrah Kun, ya Ghair Yaqeeni — sath hi wo saboot bhi jin ki bunyad par ye nateeja nikala gaya.',
         loadingText: 'Amal jari hai...',
@@ -66,7 +66,7 @@ const translations = {
         originalLabel: 'Asli Daawa',
         reasoningLabel: 'Istadlaal',
         sourcesLabel: 'Zarae',
-        errorEmpty: 'Baraye meharbani tasdeeq ke liye daawa darj karein.',
+        errorEmpty: 'Baraye meharbani tehqeeq ke liye daawa darj karein.',
         errorLong: 'Daawa bohat taweel hai (zyada se zyada 2000 huroof).',
         true: 'Sach',
         false: 'Jhoot',
