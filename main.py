@@ -46,6 +46,10 @@ class VerifyRequest(BaseModel):
     """Request body shape for the /verify endpoint."""
     claim: str
 
+class ReasoningTranslations(BaseModel):
+    english: str
+    roman_urdu: str | None = None
+    urdu_script: str | None = None
 
 class VerifyResponse(BaseModel):
     """Response body shape for the /verify endpoint."""
@@ -56,7 +60,7 @@ class VerifyResponse(BaseModel):
     sources: list = []
     verdict: str | None = None
     confidence: str | None = None
-    reasoning: str | None = None
+    reasoning: ReasoningTranslations | None = None
     error_stage: str | None = None
     error_message: str | None = None
 
@@ -85,5 +89,12 @@ def verify_claim(request: VerifyRequest):
         )
 
     logger.info("Received verification request (length=%d chars).", len(claim_text))
-    result = pipeline.verify(claim_text)
-    return result
+    result = pipeline.verify(claim_text) or {}
+
+    normalized_result = dict(result)
+    normalized_result["status"] = "error" if normalized_result.get("is_error") else "ok"
+    normalized_result.setdefault("sources", [])
+    normalized_result.setdefault("error_stage", None)
+    normalized_result.setdefault("error_message", None)
+
+    return normalized_result

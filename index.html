@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tasdeeq - Truth Verification</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="container">
+
+    <!-- ===== SIDEBAR ===== -->
+    <aside class="sidebar">
+        <div class="logo-area">
+            <div class="logo-icon">✓</div>
+            <div>
+                <h1>TASDEEQ</h1>
+                <p>Verify. Trust. Know.</p>
+            </div>
+        </div>
+
+        <hr class="sidebar-divider">
+
+        <div class="sidebar-how-to">
+            <div class="title" id="sidebarHowToTitle">How to Use</div>
+            <div class="content" id="sidebarHowToText">
+                Enter any claim in English, Urdu, or Roman Urdu. Our AI will verify it against live sources and provide a verdict with evidence and confidence score.
+            </div>
+        </div>
+    </aside>
+
+    <!-- ===== MAIN CONTENT ===== -->
+    <main class="main-content">
+
+        <!-- Welcome - Centered -->
+        <div class="welcome" id="welcomeText">
+            Welcome to <span class="tasdeeq-green">Tasdeeq</span>
+            <span class="sub" id="langIndicator">(English)</span>
+        </div>
+
+        <!-- Language Buttons -->
+        <div class="lang-buttons">
+            <button class="lang-btn active" data-lang="en">English</button>
+            <button class="lang-btn" data-lang="ur">اردو</button>
+            <button class="lang-btn" data-lang="roman">Roman Urdu</button>
+        </div>
+
+        <!-- Input -->
+        <label class="input-label" id="inputLabel">Enter your claim to verify:</label>
+        <div class="input-wrapper">
+            <textarea id="claimInput" placeholder="Paste or type your claim in English, Urdu, or Roman Urdu..."></textarea>
+            <span class="char-count" id="charCount">0 / 2000</span>
+        </div>
+
+        <button class="verify-btn" id="verifyBtn">
+            <span id="verifyBtnText">Verify Claim</span>
+        </button>
+
+        <!-- Loading -->
+        <div class="loading-overlay" id="loadingOverlay">
+            <div class="spinner"></div>
+            <div class="loading-text" id="loadingText">Processing...</div>
+        </div>
+
+        <!-- Error -->
+        <div class="error-box" id="errorBox"></div>
+
+        <!-- ===== OUTPUT ===== -->
+        <div class="output-section" id="outputSection">
+            <div class="output-card">
+
+                <!-- Verdict -->
+                <div class="verdict-section">
+                    <span class="verdict-badge unknown" id="verdictBadge">UNKNOWN</span>
+                </div>
+
+                <!-- Confidence -->
+                <div class="confidence-section">
+                    <span class="label" id="confLabel">Confidence</span>
+                    <span class="value" id="confidenceValue">0%</span>
+                    <div class="confidence-bar-wrap">
+                        <div class="confidence-bar">
+                            <div class="confidence-fill" id="confidenceFill" style="width:0%"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Details -->
+                <div id="outputDetails">
+                    <div class="output-detail" id="originalClaimWrap" style="display:none;">
+                        <h5 id="originalLabel">Original Claim</h5>
+                        <p id="originalClaim"></p>
+                    </div>
+                    <div class="output-detail" id="reasoningWrap" style="display:none;">
+                        <h5 id="reasoningLabel">Reasoning</h5>
+                        <p id="reasoningText"></p>
+                    </div>
+                </div>
+
+                <!-- Sources -->
+                <div id="sourcesContainer" style="display:none;">
+                    <h5 id="sourcesLabel" class="sources-heading">Sources</h5>
+                    <div class="sources-list" id="sourcesList"></div>
+                </div>
+
+            </div>
+        </div>
+
+    </main>
+</div>
+
+<!-- Hidden API URL input -->
+<input type="text" id="apiUrlInput" value="http://localhost:8000" style="display:none;">
+
+<script src="script.js"></script>
+</body>
+</html>
