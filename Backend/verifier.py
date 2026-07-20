@@ -17,9 +17,8 @@ Verdict categories:
 
 Revision history:
 
-  v1-v3: see git history / earlier versions. Summary: "misleading" was
-      added as a first-class category (fixed Health-domain accuracy), then
-      tightened to avoid flagging minor numeric variance as misleading.
+  v1-v3: "misleading" was added as a first-class category (fixed Health-domain accuracy),
+          then tightened to avoid flagging minor numeric variance as misleading.
 
   v4: added [TRUSTED SOURCE] / [UNVERIFIED SOURCE] tagging on evidence and
       instructed the model to avoid confident true/false verdicts based
