@@ -7,16 +7,24 @@
       "config": {
         "includeFiles": ["Backend/**", "Frontend/**"]
       }
+    },
+    {
+      "src": "Frontend/**",
+      "use": "@vercel/static"
     }
   ],
   "routes": [
     {
-      "src": "/static/(.*)",
-      "dest": "/Frontend/$1"
+      "src": "/verify",
+      "dest": "main.py"
+    },
+    {
+      "src": "/api/(.*)",
+      "dest": "main.py"
     },
     {
       "src": "/(.*)",
-      "dest": "main.py"
+      "dest": "/Frontend/$1"
     }
   ]
 }
