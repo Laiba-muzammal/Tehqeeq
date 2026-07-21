@@ -1,14 +1,18 @@
 {
+  "version": 2,
   "builds": [
     {
       "src": "main.py",
-      "use": "@vercel/python"
+      "use": "@vercel/python",
+      "config": {
+        "includeFiles": ["Backend/**", "backend/**", "Frontend/**", "frontend/**"]
+      }
     }
   ],
   "routes": [
     {
       "src": "/static/(.*)",
-      "dest": "/frontend/$1"
+      "dest": "/Frontend/$1"
     },
     {
       "src": "/(.*)",
