@@ -140,6 +140,9 @@ tehqeeq/
 │   ├── politics_retest.json     # Targeted domain test results
 │   └── test_results_full.json   # Full benchmark evaluation output
 │
+|── README.md 
+|── main.py
+|── .gitignore
 ├── NOTES.md                     # Development & debugging logs
 ├── requirements.txt             # Python project dependencies
 └── .env.example                 # Template for API keys & environment variables
