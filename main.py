@@ -1,5 +1,5 @@
 """
-main.py - Root Vercel entrypoint for Tasdeeq.
+main.py - Root Vercel entrypoint for Tasdeeq API & Frontend.
 """
 
 import logging
@@ -9,36 +9,25 @@ from pathlib import Path
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 
-# 1. Add project root directory to sys.path
+# 1. Add root directory to sys.path explicitly
 BASE_DIR = Path(__file__).resolve().parent
 if str(BASE_DIR) not in sys.path:
     sys.path.insert(0, str(BASE_DIR))
 
-# 2. Check for capitalized 'Backend' or lowercase 'backend' directory
-if (BASE_DIR / "Backend").exists():
-    from Backend.main import app
-elif (BASE_DIR / "backend").exists():
-    from backend.main import app
-else:
-    raise ImportError("Neither 'Backend' nor 'backend' directory was found.")
+# 2. Match exact folder capitalization 'Backend'
+from Backend.main import app
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 logger = logging.getLogger(__name__)
 
-# 3. Locate Frontend directory (checks both Frontend and frontend)
+# 3. Match exact folder capitalization 'Frontend'
 FRONTEND_DIR = BASE_DIR / "Frontend"
-if not FRONTEND_DIR.exists():
-    FRONTEND_DIR = BASE_DIR / "frontend"
 
-# 4. Mount static assets (style.css, script.js) under /static
+# 4. Mount CSS and JS files static directory
 if FRONTEND_DIR.exists():
     app.mount("/static", StaticFiles(directory=FRONTEND_DIR), name="static")
-    logger.info("Mounted frontend static directory from %s", FRONTEND_DIR)
-else:
-    logger.warning("Frontend directory not found!")
 
-
-# 5. Serve index.html directly at the root URL "/"
+# 5. Serve index.html on root "/"
 @app.get("/", include_in_schema=False)
 async def serve_index():
     index_path = FRONTEND_DIR / "index.html"
