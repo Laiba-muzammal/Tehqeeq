@@ -17,6 +17,9 @@ Tehqeeq closes that gap: it accepts a raw, informally-written message in Roman U
 
 ---
 
+## 📸 Preview
+<!-- Add 2-3 screenshots or a short GIF here once deployed: - Main input screen (English) - Verdict output screen showing the language toggle (English / Urdu / Roman Urdu) - Sources/evidence panel <p align="center"> <img src="docs/screenshot-input.png" width="800" alt="Tehqeeq input screen"> <img src="docs/screenshot-verdict.png" width="800" alt="Tehqeeq verdict output"> </p> -->
+
 ## How It Works
 
 ```
