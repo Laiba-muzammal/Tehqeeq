@@ -5,9 +5,11 @@ FastAPI application exposing the Tasdeeq claim-verification pipeline as a web AP
 """
 
 import logging
+from pathlib import Path
 
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 
 from Backend.pipeline import TasdeeqPipeline
@@ -22,8 +24,6 @@ app = FastAPI(
 )
 
 # Allow requests from any frontend (browser, Streamlit, etc.).
-# In a production deployment with a known frontend domain, replace
-# allow_origins=["*"] with the specific domain(s) for better security.
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -32,8 +32,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# The pipeline is created once when the server starts, not on every request --
-# this avoids re-initializing API clients unnecessarily.
+# The pipeline is created once when the server starts
 pipeline = TasdeeqPipeline()
 
 MAX_CLAIM_LENGTH = 2000  # Reasonable upper bound to prevent abuse/oversized requests.
@@ -43,10 +42,12 @@ class VerifyRequest(BaseModel):
     """Request body shape for the /verify endpoint."""
     claim: str
 
+
 class ReasoningTranslations(BaseModel):
     english: str
     roman_urdu: str | None = None
     urdu_script: str | None = None
+
 
 class VerifyResponse(BaseModel):
     """Response body shape for the /verify endpoint."""
@@ -62,9 +63,9 @@ class VerifyResponse(BaseModel):
     error_message: str | None = None
 
 
-@app.get("/")
-def root():
-    """Simple health-check endpoint -- confirms the server is running."""
+@app.get("/api/health")
+def health_check():
+    """Simple health-check endpoint -- confirms the API is running."""
     return {"message": "Tasdeeq API is running."}
 
 
@@ -95,10 +96,9 @@ def verify_claim(request: VerifyRequest):
     normalized_result.setdefault("error_message", None)
 
     return normalized_result
-    
-from pathlib import Path
 
-# Calculates absolute path to the root directory from Backend/main.py
+
+# Mount the frontend directory to serve HTML/CSS/JS files at the root URL "/"
 BASE_DIR = Path(__file__).resolve().parent.parent
 FRONTEND_DIR = BASE_DIR / "frontend"
 
