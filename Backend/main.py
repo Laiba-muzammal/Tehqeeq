@@ -5,11 +5,8 @@ FastAPI application exposing the Tasdeeq claim-verification pipeline as a web AP
 """
 
 import logging
-from pathlib import Path
-
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 
 from Backend.pipeline import TasdeeqPipeline
@@ -23,7 +20,6 @@ app = FastAPI(
     version="1.0.0",
 )
 
-# Allow requests from any frontend (browser, Streamlit, etc.).
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -32,14 +28,11 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# The pipeline is created once when the server starts
 pipeline = TasdeeqPipeline()
-
-MAX_CLAIM_LENGTH = 2000  # Reasonable upper bound to prevent abuse/oversized requests.
+MAX_CLAIM_LENGTH = 2000
 
 
 class VerifyRequest(BaseModel):
-    """Request body shape for the /verify endpoint."""
     claim: str
 
 
@@ -50,7 +43,6 @@ class ReasoningTranslations(BaseModel):
 
 
 class VerifyResponse(BaseModel):
-    """Response body shape for the /verify endpoint."""
     status: str
     original_text: str | None = None
     english_translation: str | None = None
@@ -65,16 +57,11 @@ class VerifyResponse(BaseModel):
 
 @app.get("/api/health")
 def health_check():
-    """Simple health-check endpoint -- confirms the API is running."""
     return {"message": "Tasdeeq API is running."}
 
 
 @app.post("/verify", response_model=VerifyResponse)
 def verify_claim(request: VerifyRequest):
-    """
-    Accepts a raw claim (Roman Urdu, English, or mixed) and returns
-    a verdict based on live web evidence.
-    """
     claim_text = request.claim.strip() if request.claim else ""
 
     if not claim_text:
@@ -96,11 +83,3 @@ def verify_claim(request: VerifyRequest):
     normalized_result.setdefault("error_message", None)
 
     return normalized_result
-
-
-# Mount the frontend directory to serve HTML/CSS/JS files at the root URL "/"
-BASE_DIR = Path(__file__).resolve().parent.parent
-FRONTEND_DIR = BASE_DIR / "frontend"
-
-if FRONTEND_DIR.exists():
-    app.mount("/", StaticFiles(directory=FRONTEND_DIR, html=True), name="frontend")
