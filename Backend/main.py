@@ -95,7 +95,12 @@ def verify_claim(request: VerifyRequest):
     normalized_result.setdefault("error_message", None)
 
     return normalized_result
+    
+from pathlib import Path
 
-from fastapi.staticfiles import StaticFiles
+# Calculates absolute path to the root directory from Backend/main.py
+BASE_DIR = Path(__file__).resolve().parent.parent
+FRONTEND_DIR = BASE_DIR / "frontend"
 
-app.mount("/", StaticFiles(directory="../frontend", html=True), name="frontend")
+if FRONTEND_DIR.exists():
+    app.mount("/", StaticFiles(directory=FRONTEND_DIR, html=True), name="frontend")
