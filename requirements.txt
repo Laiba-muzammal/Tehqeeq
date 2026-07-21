@@ -1,8 +1,8 @@
 fastapi
 uvicorn
+pydantic
 groq
 tavily-python
+httpx
+requests
 python-dotenv
-pandas
-openpyxl
-pydantic
