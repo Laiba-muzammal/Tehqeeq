@@ -3,24 +3,16 @@
     {
       "src": "main.py",
       "use": "@vercel/python"
-    },
-    {
-      "src": "Frontend/**",
-      "use": "@vercel/static"
     }
   ],
   "routes": [
     {
-      "src": "/verify",
-      "dest": "main.py"
-    },
-    {
-      "src": "/api/(.*)",
-      "dest": "main.py"
+      "src": "/static/(.*)",
+      "dest": "/frontend/$1"
     },
     {
       "src": "/(.*)",
-      "dest": "/Frontend/$1"
+      "dest": "main.py"
     }
   ]
 }
