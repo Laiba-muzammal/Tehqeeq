@@ -17,6 +17,15 @@ Tehqeeq closes that gap: it accepts a raw, informally-written message in Roman U
 
 ---
 
+## Live Link
+will be added soon
+
+---
+
+## 📸 Preview
+---
+
+
 ## How It Works
 
 ```
@@ -131,6 +140,9 @@ tehqeeq/
 │   ├── politics_retest.json     # Targeted domain test results
 │   └── test_results_full.json   # Full benchmark evaluation output
 │
+|── README.md 
+|── main.py
+|── .gitignore
 ├── NOTES.md                     # Development & debugging logs
 ├── requirements.txt             # Python project dependencies
 └── .env.example                 # Template for API keys & environment variables
