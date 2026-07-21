@@ -2,29 +2,31 @@
 main.py - Root Vercel entrypoint for Tasdeeq.
 """
 
-import sys
 import logging
+import sys
 from pathlib import Path
+
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 
-# Add root directory to sys.path explicitly for Vercel
+# 1. Add project root to sys.path BEFORE importing backend
 BASE_DIR = Path(__file__).resolve().parent
 if str(BASE_DIR) not in sys.path:
     sys.path.insert(0, str(BASE_DIR))
 
-# Import inner FastAPI app
+# 2. Now import app from backend/main.py
 from backend.main import app
 
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 logger = logging.getLogger(__name__)
 
 FRONTEND_DIR = BASE_DIR / "frontend"
 
-# Mount frontend static assets
+# 3. Mount static files
 if FRONTEND_DIR.exists():
     app.mount("/static", StaticFiles(directory=FRONTEND_DIR), name="static")
 
+# 4. Serve index.html
 @app.get("/", include_in_schema=False)
 async def serve_index():
     index_path = FRONTEND_DIR / "index.html"
