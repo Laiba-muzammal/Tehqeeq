@@ -26,7 +26,7 @@ Tehqeeq closes that gap: it accepts a raw, informally-written message in Roman U
 
 | Home Englih | Home Urdu | Home Roman Urdu |
 |-----------|--------|----------|
-| ![Home Englih](screenshots/home page.png) | ![Home Urdu](screenshots/home.png) | ![Home Roman Urdu](screenshots/login.png) |
+| ![Home Englih](screenshots/homepage.png) | ![Home Urdu](screenshots/home_romanurdu.png) | ![Home Roman Urdu](screenshots/home_urdu.png) |
 
 | Output English_a | Output English_b | Output RomanUrdu_a |
 |-----------|----------|------------|
