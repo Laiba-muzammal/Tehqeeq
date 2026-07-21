@@ -30,11 +30,11 @@ Tehqeeq closes that gap: it accepts a raw, informally-written message in Roman U
 
 | Output English_a | Output English_b | Output RomanUrdu_a |
 |-----------|----------|------------|
-| ![Output English_a](screenshots/output_a.png) | ![Output English_b](screenshots/output_b.png) | ![Output RomanUrdu_a](screenshots/output_C.png) |
+| ![Output English_a](screenshots/output_a.png) | ![Output English_b](screenshots/output_b.png) | ![Output RomanUrdu_a](screenshots/output_c.png) |
 
 |  Output RomanUrdu_b |  Output Urdu_a |  Output Urdu_b |
 |----------------|------------|----------------|
-| ![Output RomanUrdu_b](screenshots/output_d.png) | ![ Output Urdu_a](screenshots/output_e.png) | ![Output Urdu_b](screenshots/]output_f.png) |
+| ![Output RomanUrdu_b](screenshots/output_d.png) | ![ Output Urdu_a](screenshots/output_e.png) | ![Output Urdu_b](screenshots/output_f.png) |
 
 ---
 
