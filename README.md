@@ -17,8 +17,7 @@ Tehqeeq closes that gap: it accepts a raw, informally-written message in Roman U
 
 ---
 
-## [Live Link]
-[Tehqeeq](https://tehqeeq.vercel.app/)
+## [Live Link](https://tehqeeq.vercel.app/)
 
 ---
 
