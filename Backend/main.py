@@ -95,3 +95,7 @@ def verify_claim(request: VerifyRequest):
     normalized_result.setdefault("error_message", None)
 
     return normalized_result
+
+from fastapi.staticfiles import StaticFiles
+
+app.mount("/", StaticFiles(directory="../frontend", html=True), name="frontend")

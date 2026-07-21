@@ -203,8 +203,7 @@ verifyBtn.addEventListener('click', async function () {
     hideOutput();
     setLoading(true);
 
-    const apiUrl = apiUrlInput.value.trim() || 'http://localhost:8000';
-
+    const apiUrl = apiUrlInput.value.trim() || window.location.origin;
     try {
         const res = await fetch(`${apiUrl}/verify`, {
             method: 'POST',
